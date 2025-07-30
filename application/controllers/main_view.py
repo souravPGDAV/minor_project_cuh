@@ -6,5 +6,6 @@ from flask import current_app as app
 @app.route('/')
 def home_page():
     if request.method=="GET":
+        print("here")
         return render_template("home.html")
     

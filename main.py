@@ -1,9 +1,16 @@
 from flask import Flask
+# from application.controllers.main_view import *
 
-app = Flask(__name__)
 
+def create_app():
+    app = Flask(__name__)
 
-from application.controllers import *
+    app.app_context().push()
+    return app
+
+app=None
+
+app=create_app()
 
 if __name__=="__main__":
     app.run(debug=True)
