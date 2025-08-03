@@ -2,8 +2,9 @@ from flask import Flask
 
 app = Flask(__name__)
 
-
-from application.controllers import *
+app.app_context().push()
+from application.controllers.main_view import *
 
 if __name__=="__main__":
     app.run(debug=True)
+    
