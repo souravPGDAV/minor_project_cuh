@@ -2,8 +2,59 @@
     <head>
         <title>Home Page</title>
     </head>
+    <script>
+       
+        
+        window.onload=getLocation()
+        function getLocation() {
+         
+        if (navigator.geolocation) {
+            console.log("here");
+            navigator.geolocation.getCurrentPosition(success, error);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+        }
+
+        function success(position) {
+             const x = document.getElementById("location");
+             position.coords.latitude=20;
+             
+             if(position.coords.latitude<28.345 || position.coords.longitude>76.160 || 
+                position.coords.latitude>28.370 || position.coords.longitude<76.120){
+                    alert("You seem to be outside the university.");
+             } 
+
+        x.innerHTML = "Latitude: " + position.coords.latitude +
+        "<br>Longitude: " + position.coords.longitude;
+        }
+        
+        setInterval(() => {
+            element=document.getElementById("bus_here");
+      element.style.visibility = element.style.visibility === "hidden" ? "visible" : "hidden";
+    }, 500);
+        function error() {
+        alert("Sorry, no position available.");    
+        }
+    </script>
     <body>
-        Namaste
+        <h3 align="center">Welcome to CUH bus tracker!</h3>
+        <hr>
+        <div id="date_time">
+            <div id="date">Date: {{date}}</div>
+            <div id="location">Location:</div>
+        </div>
+        <div id="bus_locations">
+            <h5>Bus locations</h5>
+            <ul style="font-size:x-large;">
+                <li style="color: grey;">Gate 1</li><div style="font-size:small;color: green;" id="bus_here">BUS is here!</div>
+                <li style="color: grey;">VC House</li>
+                <li style="color: grey;">Wi-Fi Chowk</li>
+                <li style="color: grey;">New Girls Hostel</li>
+                <li style="color: grey;">Amul</li>
+                <li style="color: grey;">Gate 2</li>
+            </ul>
+        </div>
     </body>
 
 
