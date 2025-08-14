@@ -40,6 +40,9 @@
     <body>
         <h3 align="center">Welcome to CUH bus tracker!</h3>
         <hr>
+        <div id="app">
+            <router-view :key="$route.fullPath"></router-view>
+        </div>
         <div id="date_time">
             <div id="date">Date: {{date}}</div>
             <div id="location">Location:</div>
@@ -56,6 +59,6 @@
             </ul>
         </div>
     </body>
-
+    <script type="module" src="/static/main.js"></script>
 
 </html>
