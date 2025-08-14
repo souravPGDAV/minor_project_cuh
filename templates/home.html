@@ -6,31 +6,6 @@
         <script src="https://unpkg.com/vuex@3.6.2/dist/vuex.js" ></script>
     </head>
     <script>
-       
-        
-        window.onload=getLocation()
-        function getLocation() {
-         
-        if (navigator.geolocation) {
-            console.log("here");
-            navigator.geolocation.getCurrentPosition(success, error);
-        } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
-        }
-        }
-
-        function success(position) {
-             const x = document.getElementById("location");
-             position.coords.latitude=20;
-             
-             if(position.coords.latitude<28.345 || position.coords.longitude>76.160 || 
-                position.coords.latitude>28.370 || position.coords.longitude<76.120){
-                    alert("You seem to be outside the university.");
-             } 
-
-        x.innerHTML = "Latitude: " + position.coords.latitude +
-        "<br>Longitude: " + position.coords.longitude;
-        }
         
         setInterval(() => {
             element=document.getElementById("bus_here");
