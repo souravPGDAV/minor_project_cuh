@@ -42,6 +42,8 @@ const home ={
         this.locations_fetched=setInterval(()=>{
             this.compute_location();
         },1000);
+        var b_u=window.location.origin
+        this.$store.commit('set_base_url',b_u);
     },
     methods:{
         set_location:function(position){        
@@ -59,14 +61,21 @@ const home ={
         error_in_location:function(){
             console.log("Could not fetch the location.");
         },
+        get_all_locations:function(position=null){
+            var request_body={'timestamp':"",'longitude':"",latitude:""}
+            fetch(this.$store.getters.get_base_url+"/api/get_locations",{
+                headers:{'Content-Type':'application/json'},method:"POST",body:JSON.stringify(request_body)
+            })
+        },
         compute_location:function(){   
-        
+            this.get_all_locations();
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(this.set_location, this.error_in_location);
             } else {
                 // !---set error here
                 // "Geolocation is not supported by this browser.";
                 this.location=null;
+               
             }
 
         }
