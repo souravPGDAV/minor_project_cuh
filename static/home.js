@@ -63,8 +63,10 @@ const home ={
         },
         get_all_locations:function(position=null){
             var request_body={'timestamp':"",'longitude':"",latitude:""}
-            fetch(this.$store.getters.get_base_url+"/api/get_locations",{
+            fetch(this.$store.getters.get_base_url+"/api/locations",{
                 headers:{'Content-Type':'application/json'},method:"POST",body:JSON.stringify(request_body)
+            }).then(response=>{
+                console.log(response);
             })
         },
         compute_location:function(){   
