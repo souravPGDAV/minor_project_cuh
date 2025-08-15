@@ -38,12 +38,20 @@ const home ={
         }
     },
     async mounted(){
-        //try getting location
-        this.locations_fetched=setInterval(()=>{
-            this.compute_location();
-        },1000);
         var b_u=window.location.origin
         this.$store.commit('set_base_url',b_u);
+
+        response=await this.fetch_user_id();
+        if(response){
+            console.log('',response);
+            return;
+            //try getting location
+            this.locations_fetched=setInterval(()=>{
+                this.compute_location();
+            },1000);    
+        }
+
+        
     },
     methods:{
         set_location:function(position){        
@@ -58,11 +66,33 @@ const home ={
                 this.location=this.latitude+","+" "+this.longitude; 
             }
         },
+        fetch_user_id:function(){
+            if('user_id' in localStorage){
+                this.$store.commit('set_user_id',localStorage['user_id']);
+            }
+            else{
+                fetch(this.$store.getters.get_base_url+"/api/user",{
+                    headers:{'Content-Type':'application/json',method:"GET"}
+                }).then(response=>{
+                    if(!response.ok){
+                        console.log("error fetching user_id");//throw an error
+                        return false;
+                    }
+                    else{
+                        return response.json();
+                    }
+                }).then(resp=>{
+                    localStorage.setItem("user_id",resp.user_id);
+                    this.$store.commit('set_user_id',localStorage['user_id']);
+                })
+            }
+            return true;
+        },
         error_in_location:function(){
             console.log("Could not fetch the location.");
         },
         get_all_locations:function(position=null){
-            var request_body={'timestamp':"",'longitude':"",latitude:""}
+            var request_body={'user_id':this.$store.getters.get_user_id,'timestamp':"",'longitude':"",latitude:""}
             fetch(this.$store.getters.get_base_url+"/api/locations",{
                 headers:{'Content-Type':'application/json'},method:"POST",body:JSON.stringify(request_body)
             }).then(response=>{

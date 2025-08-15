@@ -8,6 +8,7 @@ from application.models import *
 from flask_restful import fields, marshal
 from flask import current_app as app
 import requests
+import uuid
 
 api=Api(app)
 
@@ -20,6 +21,10 @@ class ApiLocations(Resource):
     
     def post(self):
         request_body=request.get_json()
+        try:
+            user_id=request_body['time_stamp']
+        except:
+            return marshal({'error':'user_id is required'},{'error':fields.String}), 400
         try:
             time_stamp=request_body['timestamp']
         except:
@@ -34,19 +39,35 @@ class ApiLocations(Resource):
         except:
             return marshal({'error':'longitude is required'},{'error':fields.String}), 400
 
-        instance=Locations(timestamp=time_stamp, latitude=latitude, longitude=longitude)
-        db.session.add(instance)
+        user_detail=Locations.query.filter(Locations.user_id==user_id).first()
+        if(user_detail):
+            user_detail.timestamp=time_stamp
+            user_detail.longitude=longitude
+            user_detail.latitude=latitude
+        else:
+
+            instance=Locations(user_id=user_id, timestamp=time_stamp, latitude=latitude, longitude=longitude)
+            db.session.add(instance)
         db.session.commit()
-        lower_limit=str(int(time_stamp)-10)
-        upper_limit=str(int(time_stamp)+10)
-        all_locations=Locations.query.filter(Locations.timestamp<=upper_limit).filter(Locations.timestamp>=lower_limit).all()
         
-        locations_detail={['loc_id']:fields.Integer, ['timestamp']:fields.Integer, ['latitude']:fields.String, ['longitude']: fields.String}
+        all_locations=Locations.query.filter(time_stamp-Locations.timestamp<=3).all()
+        
+
+        locations_detail={['user_id']:fields.Integer, ['loc_id']:fields.Integer, ['timestamp']:fields.Integer, ['latitude']:fields.String, ['longitude']: fields.String}
         #decide to send the location id with results
         resource_fields={}
         for index, location in enumerate(all_locations):
             resource_fields[location.loc_id]=fields.Nested(locations_detail)
+
        
         return marshal(all_locations,resource_fields),200
 
 api.add_resource(ApiLocations,'/api/locations')
+
+
+class ApiUser(Resource):
+    def get(self):
+        new_user_id=str(uuid.uuid4())[:10]
+        return marshal({'user_id':new_user_id},{'user_id':fields.String}), 200
+
+api.add_resource(ApiUser,'/api/user')
