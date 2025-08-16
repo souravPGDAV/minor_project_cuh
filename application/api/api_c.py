@@ -22,7 +22,7 @@ class ApiLocations(Resource):
     def post(self):
         request_body=request.get_json()
         try:
-            user_id=request_body['time_stamp']
+            user_id=request_body['user_id']
         except:
             return marshal({'error':'user_id is required'},{'error':fields.String}), 400
         try:
@@ -50,17 +50,25 @@ class ApiLocations(Resource):
             db.session.add(instance)
         db.session.commit()
         
-        all_locations=Locations.query.filter(time_stamp-Locations.timestamp<=3).all()
+        all_locations=Locations.query.filter(time_stamp-Locations.timestamp<=3000).all()
         
 
-        locations_detail={['user_id']:fields.Integer, ['loc_id']:fields.Integer, ['timestamp']:fields.Integer, ['latitude']:fields.String, ['longitude']: fields.String}
+        locations_detail={'user_id':fields.String, 'timestamp':fields.Integer, 'latitude':fields.String, 'longitude': fields.String}
         #decide to send the location id with results
         resource_fields={}
+        result_to_be_sent={}
         for index, location in enumerate(all_locations):
-            resource_fields[location.loc_id]=fields.Nested(locations_detail)
+            temp={}
+            temp['user_id']=location.user_id
+            temp['timestamp']=location.timestamp
+            temp['latitude']=location.latitude
+            temp['longitude']=location.longitude
+            resource_fields[str(location.user_id)]=fields.Nested(locations_detail)
+            result_to_be_sent[str(location.user_id)]=temp.copy()
+            # resource_fields[str(index)]=fields.Nested(locations_detail)
 
-       
-        return marshal(all_locations,resource_fields),200
+
+        return marshal(result_to_be_sent,resource_fields),200
 
 api.add_resource(ApiLocations,'/api/locations')
 
