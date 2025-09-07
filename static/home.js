@@ -41,7 +41,19 @@ const home ={
                     </tr>
                 </table>
             </div>
-        </div>
+            <div>
+            
+            
+            <div class="roundabout"></div>
+            <div class="poi" style="margin-top:8vh; margin-left:6vw"><span class="pin" style="background:#3b82f6"></span>🏨 Gate 1</div>
+            <div class="poi" style="margin-top:8vh; margin-left:40vw"><span class="pin" style="background:#3b82f6"></span>🏨 Wi-Fi Chowk</div>
+            <div class="poi" style="margin-top:8vh; margin-left:80vw"><span class="pin" style="background:#3b82f6"></span>🏨 Gate 2</div>
+            <div class="road h" style="margin-left:6vw; width: 80vw; margin-top:20vh"></div>
+            <div class="poi" style="margin-top:25vh; margin-left:6vw">{{at_gate1}} waiting</div>
+            <div class="poi" style="margin-top:25vh; margin-left:40vw">{{at_chowk}} waiting</div>
+            <div class="poi" style="margin-top:25vh; margin-left:80vw">{{at_gate2}} waiting</div>
+            </div>
+            </div>
     `,
     data:function(){
         return {

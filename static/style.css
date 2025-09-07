@@ -1,38 +1,34 @@
-.road-to-gate1 {
-        width: 50%;
-        height: 10px;
-        background-color: #888; /* Grey color for road */
-        top: 58%;
-        position: absolute;
-        margin: 200px 0;
-}
+.road::after {
+      content: "";
+      position: absolute; inset: 0; margin: auto; height: 4px; width: 100%;
+      background: repeating-linear-gradient(90deg, var(--lane) 0 14px, transparent 14px 28px);
+      top: 0; bottom: 0;
+      filter: drop-shadow(0 0 1px rgba(0,0,0,.4));
+      opacity: .9;
+    }
 
-.roundabout {
-      position: absolute;
-      margin: 200px 0;
-      top: 58%;
-      left: 50%;
-      width: 60px;
-      height: 60px;
-      background-color: #888;
-      border-radius: 40%;
-      transform: translate(-50%, -50%);
-      box-shadow: inset 0 0 0 8px white; /* green inner circle to simulate lane */
-}
 
-.road-to-ngh {
-    width: 40%;
-    height: 10px;
-    background-color: #888;
-    top: 58%;
-    left: 54%;
-    margin: 200px 0;
-    position: absolute;
-}
+.road { position: absolute; background: var(--road); box-shadow: inset 0 0 0 3px #2a2a2a; }
+.road.h { height: 28px; border-radius: 14px; }
+.road.v { width: 28px; border-radius: 14px; }
+.road.diag { height: 28px; width: 320px; border-radius: 14px; transform-origin: left center; }
 
-.road-to-ngh2{
-     width: 10px;
-      height: 100vh;
-      background-color: #888;
-      margin: auto;
-}
+.road.v::after { width: 4px; height: 100%; background: repeating-linear-gradient(0deg, var(--lane) 0 14px, transparent 14px 28px); left: 0; right: 0; }
+:root {
+      --map-w: 980px;
+      --map-h: 620px;
+      --road: #3a3a3a;
+      --lane: #ffffff;
+      --grass: #e8f5e9;
+      --water: #e3f2fd;
+      --border: #d0d7de;
+      --label: #0f172a;
+    }
+
+/* Roundabout */
+    .roundabout { position: absolute; width: 90px; height: 90px; border-radius: 50%; background: var(--road); margin-left: 45vw;margin-top: 15vh; box-shadow: inset 0 0 0 3px #2a2a2a; }
+    .roundabout::after { content: ""; position: absolute; inset: 8px; border-radius: 50%; border: 6px dashed var(--lane); }
+.lane { position: absolute; inset: 0; background: conic-gradient(from 180deg at 100% 0, transparent 0 36%, var(--lane) 36% 38.5%, transparent 38.5% 90%); filter: drop-shadow(0 0 1px rgba(0,0,0,.4)); }
+.poi { position: absolute; left: var(--x); top: var(--y); display: inline-flex; align-items: center; gap: 8px; background: #fff; border: 1px solid var(--border); padding: 6px 10px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,.08); font-size: 14px; color: var(--label); }
+.pin { width: 18px; height: 18px; border-radius: 50%; background: #ef4444; position: relative; }
+.pin::after { content: ""; position: absolute; left: 50%; top: 100%; width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 10px solid #ef4444; transform: translateX(-50%); }
