@@ -138,7 +138,8 @@ const home ={
             }).then(data=>{
                 console.log(data);
                 for (var location in data){
-                    var [l1,l2]=[28.352921, 76.152185];
+                    let l1=location.latitude;
+                    let l2=location.longitude;
                     var [lat,long]=this.get_pins_of("g1");
                     if(this.near_the_location(lat,long,l1,l2)){
                         this.at_gate1+=1;
