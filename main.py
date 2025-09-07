@@ -9,7 +9,7 @@ app.app_context().push()
 db.init_app(app)
 db.create_all()
 from application.controllers.main_view import *
-
+from application.api.api_c import * 
 if __name__=="__main__":
     app.run(debug=True)
     

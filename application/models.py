@@ -3,7 +3,8 @@ from application.database import db
 from flask_security import UserMixin, RoleMixin
 
 class Locations(db.Model):
-    loc_id=db.Column(db.Integer, primary_key=True, nullable=False)
-    timestamp=db.Column(db.Integer, primary_key=True, nullable=False)
-    latitude=db.Column(db.String(20))
-    longitude=db.Column(db.String(20))
+    loc_id=db.Column(db.Integer, autoincrement=True, unique=True)
+    user_id=db.Column(db.String(20), nullable=False, primary_key=True)
+    timestamp=db.Column(db.Integer, nullable=False, primary_key=True)
+    latitude=db.Column(db.String(20), nullable=False)
+    longitude=db.Column(db.String(20), nullable=False)
