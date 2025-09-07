@@ -1,16 +1,18 @@
 from application.database import db
 import pandas as pd
-from flask import Flask,request,session,json,send_file,jsonify,make_response
+from flask import Flask,request,session,json,send_file,jsonify,make_response, Blueprint
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from application.models import *
 from flask_restful import fields, marshal
-from flask import current_app as app
+# from flask import current_app as app
 import requests
 import uuid
 
-api=Api(app)
+api_bp = Blueprint("api", __name__)
+api = Api(api_bp)
+
 
 class ApiLocations(Resource):
     def get(self):
