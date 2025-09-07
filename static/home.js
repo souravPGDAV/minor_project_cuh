@@ -84,7 +84,7 @@ const home ={
             
             // try getting location
             this.locations_fetched=setInterval(()=>{
-                this.compute_location();
+                this.reset_locations();this.compute_location();
             },5000);    
         }
 
@@ -170,6 +170,14 @@ const home ={
                 }
                 
             })
+        },
+        reset_locations: function(){
+            this.at_gate1=0;
+            this.at_vch=0;
+            this.at_chowk=0;
+            this.at_amul=0;
+            this.at_ngh=0;
+            this.at_gate2=0;
         },
         near_the_location: function(lat0,long0,lat,long){
     
